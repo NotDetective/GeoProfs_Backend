@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Premission;
+use App\Models\Permission;
 use Illuminate\Http\Request;
 
-class PremissionController extends Controller
+class PermissionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class PremissionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Premission $premission)
+    public function show(Permission $premission)
     {
         //
     }
@@ -42,7 +42,7 @@ class PremissionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Premission $premission)
+    public function edit(Permission $premission)
     {
         //
     }
@@ -50,7 +50,7 @@ class PremissionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Premission $premission)
+    public function update(Request $request, Permission $premission)
     {
         //
     }
@@ -58,7 +58,7 @@ class PremissionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Premission $premission)
+    public function destroy(Permission $premission)
     {
         //
     }
