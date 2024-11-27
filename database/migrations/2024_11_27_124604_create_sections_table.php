@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('sections', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('permissions_id')->constrained();
+            $table->string('name', 50);
             $table->timestamps();
         });
     }
