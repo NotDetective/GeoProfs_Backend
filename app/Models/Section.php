@@ -8,4 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class Section extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['permission_id', 'name'];
+
+    public function permission()
+    {
+        return $this->belongsTo(Permission::class);
+    }
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
+
 }
