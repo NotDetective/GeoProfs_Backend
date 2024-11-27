@@ -61,8 +61,6 @@ php artisan openapi:generate
 - [Swagger-PHP](https://zircote.github.io/swagger-php/)
 - [Laravel](https://laravel.com/docs/11.x)
 
-## ImportedLinks
-
 
 
 
