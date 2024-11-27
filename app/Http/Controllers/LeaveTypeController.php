@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\LeaveCategory;
+use App\Models\LeaveType;
 use Illuminate\Http\Request;
 
-class LeaveCategoryController extends Controller
+class LeaveTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class LeaveCategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(LeaveCategory $leaveCategory)
+    public function show(LeaveType $leaveCategory)
     {
         //
     }
@@ -42,7 +42,7 @@ class LeaveCategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(LeaveCategory $leaveCategory)
+    public function edit(LeaveType $leaveCategory)
     {
         //
     }
@@ -50,7 +50,7 @@ class LeaveCategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, LeaveCategory $leaveCategory)
+    public function update(Request $request, LeaveType $leaveCategory)
     {
         //
     }
@@ -58,7 +58,7 @@ class LeaveCategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(LeaveCategory $leaveCategory)
+    public function destroy(LeaveType $leaveCategory)
     {
         //
     }

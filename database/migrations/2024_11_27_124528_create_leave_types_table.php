@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('leave_categories', function (Blueprint $table) {
+        Schema::create('leave_types', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
         });
@@ -22,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('leave_categories');
+        Schema::dropIfExists('leave_types');
     }
 };

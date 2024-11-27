@@ -13,6 +13,22 @@ return new class extends Migration
     {
         Schema::create('leaves', function (Blueprint $table) {
             $table->id();
+
+            //foreign keys
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('manager_id')->constrained('users')->nullOnDelete();
+            $table->foreignId('leave_type_id')->constrained('leave_types')->cascadeOnDelete();
+
+            //status of leave
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+
+            //reason for leave
+            $table->text('reason')->nullable();
+
+            //timestamp for leave date
+            $table->timestamp('date_leave');
+            $table->timestamp('date_return')->nullable();
+
             $table->timestamps();
         });
     }
