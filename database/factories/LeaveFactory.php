@@ -17,7 +17,10 @@ class LeaveFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'status' => $this->faker->randomElement(['pending', 'approved', 'rejected']),
+            'start_date' => $this->faker->dateTimeBetween('-1 year', 'now'),
+            'end_date' => $this->faker->optional()->dateTimeBetween('now', '+1 year'),
+            'reason' => $this->faker->optional()->sentence,
         ];
     }
 }
