@@ -45,6 +45,7 @@ class User extends Authenticatable
         ];
     }
 
+    // all the relationships
     public function roles()
     {
         return $this->belongsToMany(Role::class);
@@ -70,11 +71,6 @@ class User extends Authenticatable
         return $this->roles()->permissions();
     }
 
-    public function hasPermission(string $permission): bool
-    {
-        return $this->permissions()->where('name', $permission)->exists();
-    }
-
     public function projects()
     {
         return $this->hasMany(Project::class);
@@ -85,5 +81,15 @@ class User extends Authenticatable
         return $this->hasMany(Leave::class);
     }
 
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    // other methods
+    public function hasPermission(string $permission): bool
+    {
+        return $this->permissions()->where('name', $permission)->exists();
+    }
 
 }
