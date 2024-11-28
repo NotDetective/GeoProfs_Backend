@@ -20,4 +20,9 @@ class Department extends Model
     {
         return $this->hasMany(user::class);
     }
+
+    public function sections()
+    {
+        return $this->belongsToMany(Section::class);
+    }
 }

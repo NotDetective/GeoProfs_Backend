@@ -17,9 +17,13 @@ class SectionFactory extends Factory
      */
     public function definition(): array
     {
-        $name = $this->faker->word;
+        $name = $this->faker->word . $this->faker->domainName;
+
         return [
-            'permissions_id' => Permission::factory(['name' => `manager ${name}`, 'system_name' => `manage_${name}`])->create()->id,
+            'permissions_id' => Permission::factory([
+                'name' => 'Manager ' . $name,
+                'system_name' => 'manager_' . $name,
+            ])->create()->id,
             'name' => $name,
         ];
     }

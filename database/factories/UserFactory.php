@@ -25,7 +25,7 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'employee_id' => User::all()->count() + 1,
+            'employee_id' => User::all()->count() + 1 . fake()->unique()->numberBetween(1000, 9999),
             'first_name' => fake()->firstName(),
             'middle_name' => fake()->optional()->firstName(),
             'last_name' => fake()->lastName(),

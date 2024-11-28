@@ -18,8 +18,8 @@ class LeaveFactory extends Factory
     {
         return [
             'status' => $this->faker->randomElement(['pending', 'approved', 'rejected']),
-            'start_date' => $this->faker->dateTimeBetween('-1 year', 'now'),
-            'end_date' => $this->faker->optional()->dateTimeBetween('now', '+1 year'),
+            'date_leave'=> $this->faker->dateTimeBetween('-1 year', 'now'),
+            'date_return' => $this->faker->optional()->dateTimeBetween('now', '+1 year'),
             'reason' => $this->faker->optional()->sentence,
         ];
     }

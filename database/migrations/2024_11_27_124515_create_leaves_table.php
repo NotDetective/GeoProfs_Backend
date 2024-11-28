@@ -16,7 +16,7 @@ return new class extends Migration
 
             //foreign keys
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('manager_id')->constrained('users')->nullOnDelete();
+            $table->foreignId('manager_id')->constrained('users', 'id')->cascadeOnDelete();
             $table->foreignId('leave_type_id')->constrained('leave_types')->cascadeOnDelete();
 
             //status of leave

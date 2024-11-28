@@ -18,7 +18,7 @@ class PermissionFactory extends Factory
     {
         return [
             'name' => $this->faker->word,
-            'system_name' => $this->faker->word,
+            'system_name' => $this->faker->word . '_' . $this->faker->domainName . '_' . $this->faker->word,
         ];
     }
 }
