@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\LeaveType>
  */
-class LeaveCategoryFactory extends Factory
+class LeaveTypeFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +17,8 @@ class LeaveCategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->unique()->word(),
+            'active' => !((rand(0, 99) === 0)),
         ];
     }
 }
