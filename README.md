@@ -66,8 +66,3 @@ php artisan openapi:generate
 - [Postman](https://learning.postman.com/docs/introduction/overview/)
 - [Swagger-PHP](https://zircote.github.io/swagger-php/)
 - [Laravel](https://laravel.com/docs/11.x)
-
-
-
-
-
