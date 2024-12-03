@@ -36,6 +36,12 @@ cp .env.example .env
 php artisan key:generate
 ```
 
+you need to run a local MySQL server and create a database named `geoprofs`
+here are a few programs that can help you with that:
+- [XAMPP](https://www.apachefriends.org/index.html)
+- [MAMP](https://www.mamp.info/en/)
+- [Laragon](https://laragon.org/)
+
 ```bash
 php artisan migrate
 ```
