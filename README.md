@@ -52,6 +52,8 @@ php artisan db:seed
 
 ## Usage
 
+Start your local MySQL server
+
 ### Start the server
 ```bash
 php artisan serve
