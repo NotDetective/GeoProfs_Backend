@@ -17,7 +17,19 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'department_id',
+        'section_id',
+        'employee_id',
+        'first_name',
+        'middle_name',
+        'last_name',
+        'street',
+        'house_number',
+        'zip_code',
+        'city',
+        'contract_type',
+        'contract_hours',
+        'hire_date',
         'email',
         'password',
     ];
@@ -44,4 +56,52 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // all the relationships
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function section()
+    {
+        return $this->belongsTo(Section::class);
+    }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    public function register()
+    {
+        return $this->hasOne(Register::class);
+    }
+
+    public function permissions()
+    {
+        return $this->roles()->permissions();
+    }
+
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class);
+    }
+
+    public function leaves()
+    {
+        return $this->hasMany(Leave::class);
+    }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    // other methods
+    public function hasPermission(string $permission): bool
+    {
+        return $this->permissions()->where('name', $permission)->exists();
+    }
+
 }

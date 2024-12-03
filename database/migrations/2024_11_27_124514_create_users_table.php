@@ -13,11 +13,29 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            //forign key
+            $table->foreignId('department_id')->constrained('departments');
+            $table->foreignId('section_id')->constrained('sections');
+
+            $table->integer('employee_id')->unique();
+            //workers name
+            $table->string('first_name', 50);
+            $table->string('middle_name', 50)->nullable();
+            $table->string('last_name', 50);
+            //workers address
+            $table->string('street', 50);
+            $table->string('house_number', 10);
+            $table->string('zip_code', 10);
+            $table->string('city', 50);
+            //workers contact
+            $table->string('contract_type', 50);
+            $table->integer('contract_hours');
+            $table->timestamp('hire_date');
+            //workers login
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+
             $table->timestamps();
         });
 
