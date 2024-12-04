@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -17,9 +16,12 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
+
         $request->session()->regenerate();
 
-        return response()->noContent();
+        return response([
+            'token' => $request->session()->token(),
+        ], 201);
     }
 
     /**

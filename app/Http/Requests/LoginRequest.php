@@ -29,6 +29,7 @@ class LoginRequest extends FormRequest
         return [
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
+            'remember' => ['boolean'],
         ];
     }
 
@@ -59,6 +60,7 @@ class LoginRequest extends FormRequest
      */
     public function ensureIsNotRateLimited(): void
     {
+
         if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
             return;
         }
@@ -81,5 +83,14 @@ class LoginRequest extends FormRequest
     public function throttleKey(): string
     {
         return Str::transliterate(Str::lower($this->input('email')).'|'.$this->ip());
+    }
+
+    public function messages() : array
+    {
+        return [
+            'email.required' => 'We hebben een email adres nodig anders kunnen we je niet inloggen',
+            'email.email' => 'Dit is geen geldig email adres',
+            'password.required' => 'We hebben een wachtwoord nodig om je te kunnen inloggen',
+        ];
     }
 }
