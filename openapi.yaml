@@ -3,3 +3,42 @@ info:
   title: 'GeoProfs API'
   description: 'API documentation for GeoProfs backend.'
   version: 1.0.0
+paths:
+  /login:
+    post:
+      tags:
+        - Authentication
+      summary: 'Create a new session.'
+      operationId: 01922171b9960e17201221088891ac68
+      requestBody:
+        description: 'User credentials.'
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  example: user@app.com
+                password:
+                  type: string
+                  example: password
+              type: object
+      responses:
+        '201':
+          description: 'Session created.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  token: { type: string, example: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVzZXJAYXBwLmNvbSIsImV4cCI6MTYyNjQwNjYwNn0.' }
+                type: object
+        '422':
+          description: 'Invalid credentials.'
+tags:
+  -
+    name: Authentication
+    description: Authentication
