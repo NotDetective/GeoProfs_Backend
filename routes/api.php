@@ -26,9 +26,3 @@ Route::group(['middleware' => ['api']], function () {
 
 });
 
-Route::fallback(function () {
-    return response()->json([
-        'message' => 'De pagina kon niet worden gevonden.',
-    ], 404);
-});
-
