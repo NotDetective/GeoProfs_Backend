@@ -38,6 +38,12 @@ paths:
                 type: object
         '422':
           description: 'Invalid credentials.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  errors: { type: object, example: { email: ['We hebben een email adres nodig anders kunnen we je niet inloggen.'], password: ['We hebben een wachtwoord nodig anders kunnen we je niet inloggen.'] } }
+                type: object
   /logout:
     post:
       tags:

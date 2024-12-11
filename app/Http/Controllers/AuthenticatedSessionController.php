@@ -25,7 +25,9 @@ class AuthenticatedSessionController extends Controller
     #[OA\Response(response: '201', description: 'Session created.', content: new OA\JsonContent(properties: [
         new OA\Property(property: 'token', type: 'string', example: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVzZXJAYXBwLmNvbSIsImV4cCI6MTYyNjQwNjYwNn0.'),
     ]))]
-    #[OA\Response(response: '422', description: 'Invalid credentials.')]
+    #[OA\Response(response: '422', description: 'Invalid credentials.' , content: new OA\JsonContent(properties: [
+        new OA\Property(property: 'errors', type: 'object', example: ['email' => ['We hebben een email adres nodig anders kunnen we je niet inloggen.'], 'password' => ['We hebben een wachtwoord nodig anders kunnen we je niet inloggen.']]),
+    ]))]
     public function store(LoginRequest $request): Response
     {
         $request->authenticate();
