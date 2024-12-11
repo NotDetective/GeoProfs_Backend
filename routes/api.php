@@ -4,7 +4,7 @@ use App\Http\Controllers\AuthenticatedSessionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['middleware' => ['api'] ], function () {
+Route::group(['middleware' => ['api']], function () {
 
     Route::group(['middleware' => ['guest']], function () {
 
@@ -26,5 +26,9 @@ Route::group(['middleware' => ['api'] ], function () {
 
 });
 
-//Route::post('/user/create', [UserController::class, 'store']);
+Route::fallback(function () {
+    return response()->json([
+        'message' => 'De pagina kon niet worden gevonden.',
+    ], 404);
+});
 
