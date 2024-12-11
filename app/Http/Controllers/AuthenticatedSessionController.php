@@ -23,8 +23,8 @@ class AuthenticatedSessionController extends Controller
         ),
     ])]
     #[OA\Response(response: '201', description: 'Session created.', content: new OA\JsonContent(properties: [
-            new OA\Property(property: 'token', type: 'string', example: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVzZXJAYXBwLmNvbSIsImV4cCI6MTYyNjQwNjYwNn0.')
-        ]))]
+        new OA\Property(property: 'token', type: 'string', example: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVzZXJAYXBwLmNvbSIsImV4cCI6MTYyNjQwNjYwNn0.'),
+    ]))]
     #[OA\Response(response: '422', description: 'Invalid credentials.')]
     public function store(LoginRequest $request): Response
     {
@@ -38,9 +38,11 @@ class AuthenticatedSessionController extends Controller
         ], 201);
     }
 
-    /**
-     * Destroy an authenticated session.
-     */
+    #[OA\Post(path: '/logout', summary: 'Destroy the current session.', tags: ['Authentication'])]
+    #[OA\HeaderParameter(name: 'Authorization', description: 'Bearer token.', in: 'header', required: true, example: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVzZXJAYXBwLmNvbSIsImV4cCI6MTYyNjQwNjYwNn0.')]
+    #[OA\SecurityScheme(securityScheme: 'bearerAuth', type: 'http', scheme: 'bearer',)]
+    #[OA\Response(response: '200', description: 'Session destroyed.')]
+    #[OA\Response(response: '401', description: 'Unauthenticated.')]
     public function destroy(Request $request): Response
     {
         Auth::guard('web')->logout();
