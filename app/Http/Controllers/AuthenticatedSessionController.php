@@ -20,7 +20,7 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         return response([
-            'token' => $request->session()->token(),
+            'token' => 'Bearer ' . $request->session()->token(),
         ], 201);
     }
 
@@ -35,6 +35,8 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return response()->noContent();
+        return response([
+            'message' => 'Logged out',
+        ], 200);
     }
 }
