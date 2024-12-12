@@ -3,3 +3,74 @@ info:
   title: 'GeoProfs API'
   description: 'API documentation for GeoProfs backend.'
   version: 1.0.0
+paths:
+  /login:
+    post:
+      tags:
+        - Authentication
+      summary: 'Create a new session.'
+      operationId: 01922171b9960e17201221088891ac68
+      requestBody:
+        description: 'User credentials.'
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  example: user@app.com
+                password:
+                  type: string
+                  example: password
+                remember:
+                  type: boolean
+                  example: true
+              type: object
+      responses:
+        '201':
+          description: 'Session created.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  token: { type: string, example: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVzZXJAYXBwLmNvbSIsImV4cCI6MTYyNjQwNjYwNn0.' }
+                type: object
+        '422':
+          description: 'Invalid credentials.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  errors: { type: object, example: { email: ['We hebben een email adres nodig anders kunnen we je niet inloggen.'], password: ['We hebben een wachtwoord nodig anders kunnen we je niet inloggen.'], remember: ['remember must be a boolean.'] } }
+                type: object
+  /logout:
+    post:
+      tags:
+        - Authentication
+      summary: 'Destroy the current session.'
+      operationId: 858bd2eaf206c1d4c6fc691c7ef1c769
+      parameters:
+        -
+          name: Authorization
+          in: header
+          description: 'Bearer token.'
+          required: true
+          example: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVzZXJAYXBwLmNvbSIsImV4cCI6MTYyNjQwNjYwNn0.'
+      responses:
+        '200':
+          description: 'Session destroyed.'
+        '401':
+          description: Unauthenticated.
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+tags:
+  -
+    name: Authentication
+    description: Authentication
