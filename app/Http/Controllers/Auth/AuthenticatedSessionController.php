@@ -35,4 +35,13 @@ class AuthenticatedSessionController extends Controller
 
         return response()->noContent();
     }
+
+    public function update(Request $request): Response
+    {
+        $request->session()->regenerateToken();
+
+        return response([
+            'token' => $request->session()->token(),
+        ], 200);
+    }
 }
