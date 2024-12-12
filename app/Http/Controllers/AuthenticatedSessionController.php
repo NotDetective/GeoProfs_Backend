@@ -18,6 +18,7 @@ class AuthenticatedSessionController extends Controller
             properties: [
                 new OA\Property(property: 'email', type: 'string', example: 'user@app.com'),
                 new OA\Property(property: 'password', type: 'string', example: 'password'),
+                new OA\Property(property: 'remember', type: 'boolean', example: true),
             ],
             type: 'object',
         ),
@@ -26,7 +27,12 @@ class AuthenticatedSessionController extends Controller
         new OA\Property(property: 'token', type: 'string', example: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVzZXJAYXBwLmNvbSIsImV4cCI6MTYyNjQwNjYwNn0.'),
     ]))]
     #[OA\Response(response: '422', description: 'Invalid credentials.' , content: new OA\JsonContent(properties: [
-        new OA\Property(property: 'errors', type: 'object', example: ['email' => ['We hebben een email adres nodig anders kunnen we je niet inloggen.'], 'password' => ['We hebben een wachtwoord nodig anders kunnen we je niet inloggen.']]),
+        new OA\Property(property: 'errors', type: 'object', example:
+            [
+                'email' => ['We hebben een email adres nodig anders kunnen we je niet inloggen.'],
+                'password' => ['We hebben een wachtwoord nodig anders kunnen we je niet inloggen.'],
+                'remember' => ['remember must be a boolean.'],
+            ]),
     ]))]
     public function store(LoginRequest $request): Response
     {

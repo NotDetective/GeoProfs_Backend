@@ -26,6 +26,9 @@ paths:
                 password:
                   type: string
                   example: password
+                remember:
+                  type: boolean
+                  example: true
               type: object
       responses:
         '201':
@@ -42,7 +45,7 @@ paths:
             application/json:
               schema:
                 properties:
-                  errors: { type: object, example: { email: ['We hebben een email adres nodig anders kunnen we je niet inloggen.'], password: ['We hebben een wachtwoord nodig anders kunnen we je niet inloggen.'] } }
+                  errors: { type: object, example: { email: ['We hebben een email adres nodig anders kunnen we je niet inloggen.'], password: ['We hebben een wachtwoord nodig anders kunnen we je niet inloggen.'], remember: ['remember must be a boolean.'] } }
                 type: object
   /logout:
     post:
