@@ -22,6 +22,11 @@ Route::group(['middleware' => ['api']], function () {
         // here need to go all API routes that require the user to be authenticated(logged in)
 
 
+
+        Route::group(['prefix' => 'mail'], function () {
+            Route::post('/password-reset', [AuthenticatedSessionController::class, 'sendPasswordResetEmail'])
+                ->name('password-reset-email');
+        });
     });
 
 });
