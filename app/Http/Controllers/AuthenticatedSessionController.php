@@ -80,6 +80,4 @@ class AuthenticatedSessionController extends Controller
             'token' => 'Bearer ' . $request->session()->token(),
         ], 200);
     }
-
-    $this->
 }
