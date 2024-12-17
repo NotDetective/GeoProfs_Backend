@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthenticatedSessionController;
+use App\Http\Controllers\MailController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -12,7 +13,10 @@ Route::group(['middleware' => ['api']], function () {
             ->name('login');
         // here need to go all API routes that do not require the user to be authenticated(logged in)
 
-
+        Route::group(['prefix' => 'mail'], function () {
+            Route::post('/password-reset', [MailController::class, 'sendPasswordResetEmail'])
+                ->name('password-reset-email');
+        });
     });
 
     Route::group(['middleware' => ['auth:sanctum']], function () {
@@ -21,12 +25,6 @@ Route::group(['middleware' => ['api']], function () {
             ->name('logout');
         // here need to go all API routes that require the user to be authenticated(logged in)
 
-
-
-        Route::group(['prefix' => 'mail'], function () {
-            Route::post('/password-reset', [AuthenticatedSessionController::class, 'sendPasswordResetEmail'])
-                ->name('password-reset-email');
-        });
     });
 
 });
