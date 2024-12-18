@@ -65,12 +65,12 @@ paths:
           description: 'Session destroyed.'
         '401':
           description: Unauthenticated.
-  /session/update:
+  /auth/check:
     patch:
       tags:
         - Authentication
-      summary: 'Update the current session.'
-      operationId: c6ab3fc42e9c9216625dafef546f5829
+      summary: 'Checks if the api token is valid.'
+      operationId: 9826eebf6215a633edde964a42e99d34
       parameters:
         -
           name: Authorization
@@ -79,14 +79,8 @@ paths:
           required: true
           example: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVzZXJAYXBwLmNvbSIsImV4cCI6MTYyNjQwNjYwNn0.'
       responses:
-        '201':
-          description: 'Session Updated'
-          content:
-            application/json:
-              schema:
-                properties:
-                  token: { type: string, example: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVzZXJAYXBwLmNvbSIsImV4cCI6MTYyNjQwNjYwNn0.' }
-                type: object
+        '200':
+          description: 'Api token is valid.'
         '401':
           description: Unauthenticated.
 components:

@@ -65,19 +65,15 @@ class AuthenticatedSessionController extends Controller
     }
 
 
-    #[OA\Patch(path: '/session/update', summary: 'Update the current session.', tags: ['Authentication'])]
+    #[OA\Patch(path: '/auth/check', summary: 'Checks if the api token is valid.', tags: ['Authentication'])]
     #[OA\HeaderParameter(name: 'Authorization', description: 'Bearer token.', in: 'header', required: true, example: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVzZXJAYXBwLmNvbSIsImV4cCI6MTYyNjQwNjYwNn0.')]
     #[OA\SecurityScheme(securityScheme: 'bearerAuth', type: 'http', scheme: 'bearer',)]
-    #[OA\Response(response: '201', description: 'Session Updated', content: new OA\JsonContent(properties: [
-        new OA\Property(property: 'token', type: 'string', example: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVzZXJAYXBwLmNvbSIsImV4cCI6MTYyNjQwNjYwNn0.'),
-    ]))]
+    #[OA\Response(response: '200', description: 'Api token is valid.')]
     #[OA\Response(response: '401', description: 'Unauthenticated.')]
-    public function update(Request $request): Response
+    public function check(): Response
     {
-        $request->session()->regenerate();
-
         return response([
-            'token' => 'Bearer ' . $request->session()->token(),
+            'message' => 'Api token is valid',
         ], 200);
     }
 }
