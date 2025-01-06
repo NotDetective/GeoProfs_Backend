@@ -83,6 +83,30 @@ paths:
           description: 'Api token is valid.'
         '401':
           description: Unauthenticated.
+  mail/password-reset:
+    post:
+      tags:
+        - Mail
+      summary: 'Send a password reset email.'
+      operationId: fef21e533b552d715c19711d3c0eb927
+      requestBody:
+        description: 'User email.'
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - email
+              properties:
+                email:
+                  type: string
+                  example: user@app.com
+              type: object
+      responses:
+        '200':
+          description: 'Password reset email sent.'
+        '400':
+          description: 'Password reset email not sent.'
 components:
   securitySchemes:
     bearerAuth:
@@ -92,3 +116,6 @@ tags:
   -
     name: Authentication
     description: Authentication
+  -
+    name: Mail
+    description: Mail

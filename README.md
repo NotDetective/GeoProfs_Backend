@@ -50,9 +50,18 @@ php artisan migrate
 php artisan db:seed
 ```
 
+# mailtrap.io
+this is only if you are going to be using any of the email features
+
+> create an account on [mailtrap.io](https://mailtrap.io/)
+
+> copy the SMTP credentials
+> and paste them in the `.env` file
+
 ## Usage
 
 Start your local MySQL server
+
 
 ### Start the server
 ```bash
