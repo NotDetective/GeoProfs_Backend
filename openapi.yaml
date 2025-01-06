@@ -65,6 +65,24 @@ paths:
           description: 'Session destroyed.'
         '401':
           description: Unauthenticated.
+  /auth/check:
+    patch:
+      tags:
+        - Authentication
+      summary: 'Checks if the api token is valid.'
+      operationId: 9826eebf6215a633edde964a42e99d34
+      parameters:
+        -
+          name: Authorization
+          in: header
+          description: 'Bearer token.'
+          required: true
+          example: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVzZXJAYXBwLmNvbSIsImV4cCI6MTYyNjQwNjYwNn0.'
+      responses:
+        '200':
+          description: 'Api token is valid.'
+        '401':
+          description: Unauthenticated.
   mail/password-reset:
     post:
       tags:

@@ -63,4 +63,17 @@ class AuthenticatedSessionController extends Controller
             'message' => 'Logged out',
         ], 200);
     }
+
+
+    #[OA\Patch(path: '/auth/check', summary: 'Checks if the api token is valid.', tags: ['Authentication'])]
+    #[OA\HeaderParameter(name: 'Authorization', description: 'Bearer token.', in: 'header', required: true, example: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVzZXJAYXBwLmNvbSIsImV4cCI6MTYyNjQwNjYwNn0.')]
+    #[OA\SecurityScheme(securityScheme: 'bearerAuth', type: 'http', scheme: 'bearer',)]
+    #[OA\Response(response: '200', description: 'Api token is valid.')]
+    #[OA\Response(response: '401', description: 'Unauthenticated.')]
+    public function check(): Response
+    {
+        return response([
+            'message' => 'Api token is valid',
+        ], 200);
+    }
 }

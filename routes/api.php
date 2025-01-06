@@ -23,6 +23,9 @@ Route::group(['middleware' => ['api']], function () {
 
         Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
             ->name('logout');
+
+        Route::patch('auth/check', [AuthenticatedSessionController::class, 'check'])
+            ->name('auth.check');
         // here need to go all API routes that require the user to be authenticated(logged in)
 
     });
