@@ -25,7 +25,6 @@ class UpdateAndCreateUserRequest extends FormRequest
             'first_name' => ['required', 'string', 'max:50'],
             'last_name' => ['required', 'string', 'max:50'],
             'middle_name' => ['nullable', 'string', 'max:100'],
-            'employee_id' => ['required', 'string', 'unique:users,employee_id'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'street' => ['required', 'string', 'max:50'],
             'house_number' => ['required', 'string', 'max:10'],
@@ -34,7 +33,7 @@ class UpdateAndCreateUserRequest extends FormRequest
             'contract_type' => ['required', 'string', 'max:50'],
             'contract_hours' => ['required', 'numeric'],
             'hire_date' => ['required', 'date'],
-            'role_id' => ['required', 'exist:roles,id'],
+            'role_id' => ['required', 'exists:roles,id'],
             'department_id' => ['required', 'exists:departments,id'],
             'section_id' => ['required', 'exists:sections,id'],
         ];
