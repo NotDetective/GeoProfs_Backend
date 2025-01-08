@@ -13,6 +13,9 @@ Route::group(['middleware' => ['api']], function () {
             ->name('login');
         // here need to go all API routes that do not require the user to be authenticated(logged in)
 
+        Route::post('/reset-password', [AuthenticatedSessionController::class, 'resetPassword'])
+            ->name('password.reset');
+
         Route::group(['prefix' => 'mail'], function () {
             Route::post('/password-reset', [MailController::class, 'sendPasswordResetEmail'])
                 ->name('password-reset-email');

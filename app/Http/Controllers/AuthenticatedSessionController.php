@@ -3,9 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\ResetPasswordRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
+use Illuminate\Auth\Events\PasswordReset;
 use OpenApi\Attributes as OA;
 
 class AuthenticatedSessionController extends Controller
@@ -75,5 +81,25 @@ class AuthenticatedSessionController extends Controller
         return response([
             'message' => 'Api token is valid',
         ], 200);
+    }
+
+    public function resetPassword(ResetPasswordRequest $request): Response
+    {
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function (User $user, string $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password)
+                ])->setRememberToken(Str::random(60));
+
+                $user->save();
+
+                event(new PasswordReset($user));
+            }
+        );
+
+        return $status === Password::PASSWORD_RESET
+            ? response(['message' => __($status)], 200)
+            : response(['message' => __($status)], 400);
     }
 }
