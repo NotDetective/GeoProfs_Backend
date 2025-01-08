@@ -45,7 +45,7 @@ paths:
             application/json:
               schema:
                 properties:
-                  errors: { type: object, example: { email: ['We hebben een email adres nodig anders kunnen we je niet inloggen.'], password: ['We hebben een wachtwoord nodig anders kunnen we je niet inloggen.'], remember: ['remember must be a boolean.'] } }
+                  errors: { type: object, example: { email: ['Email is required.'], password: ['Password is required.'], remember: ['Remember must be a boolean.'] } }
                 type: object
   /logout:
     post:
@@ -59,7 +59,7 @@ paths:
           in: header
           description: 'Bearer token.'
           required: true
-          example: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVzZXJAYXBwLmNvbSIsImV4cCI6MTYyNjQwNjYwNn0.'
+          example: 'Bearer token'
       responses:
         '200':
           description: 'Session destroyed.'
@@ -69,7 +69,7 @@ paths:
     patch:
       tags:
         - Authentication
-      summary: 'Checks if the api token is valid.'
+      summary: 'Checks if the API token is valid.'
       operationId: 9826eebf6215a633edde964a42e99d34
       parameters:
         -
@@ -77,17 +77,17 @@ paths:
           in: header
           description: 'Bearer token.'
           required: true
-          example: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVzZXJAYXBwLmNvbSIsImV4cCI6MTYyNjQwNjYwNn0.'
+          example: 'Bearer token'
       responses:
         '200':
-          description: 'Api token is valid.'
+          description: 'API token is valid.'
         '401':
           description: Unauthenticated.
   /reset-password:
     post:
       tags:
         - Authentication
-      summary: 'Reset the users password.'
+      summary: 'Reset the user’s password.'
       operationId: 52c2272380505eb92a21c96839d200f9
       requestBody:
         description: 'User credentials.'
@@ -111,7 +111,7 @@ paths:
                   type: string
                   example: password
                 token:
-                  description: 'The token is sent to the users email address.'
+                  description: 'The token is sent to the user’s email address.'
                   type: string
                   example: token
               type: object

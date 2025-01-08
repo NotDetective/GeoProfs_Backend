@@ -14,9 +14,9 @@ use Illuminate\Support\Str;
 use Illuminate\Auth\Events\PasswordReset;
 use OpenApi\Attributes as OA;
 
+#[OA\SecurityScheme(securityScheme: 'bearerAuth', type: 'http', scheme: 'bearer')]
 class AuthenticatedSessionController extends Controller
 {
-
     #[OA\Post(path: '/login', summary: 'Create a new session.', tags: ['Authentication'])]
     #[OA\RequestBody(description: 'User credentials.', required: true, content: [
         new OA\JsonContent(
@@ -43,7 +43,6 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
-
         $request->session()->regenerate();
 
         return response([
@@ -52,8 +51,7 @@ class AuthenticatedSessionController extends Controller
     }
 
     #[OA\Post(path: '/logout', summary: 'Destroy the current session.', tags: ['Authentication'])]
-    #[OA\HeaderParameter(name: 'Authorization', description: 'Bearer token.', in: 'header', required: true, example: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVzZXJAYXBwLmNvbSIsImV4cCI6MTYyNjQwNjYwNn0.')]
-    #[OA\SecurityScheme(securityScheme: 'bearerAuth', type: 'http', scheme: 'bearer',)]
+    #[OA\HeaderParameter(name: 'Authorization', description: 'Bearer token.', in: 'header', required: true, example: 'Bearer token')]
     #[OA\Response(response: '200', description: 'Session destroyed.')]
     #[OA\Response(response: '401', description: 'Unauthenticated.')]
     public function destroy(Request $request): Response
@@ -69,20 +67,18 @@ class AuthenticatedSessionController extends Controller
         ], 200);
     }
 
-
-    #[OA\Patch(path: '/auth/check', summary: 'Checks if the api token is valid.', tags: ['Authentication'])]
-    #[OA\HeaderParameter(name: 'Authorization', description: 'Bearer token.', in: 'header', required: true, example: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVzZXJAYXBwLmNvbSIsImV4cCI6MTYyNjQwNjYwNn0.')]
-    #[OA\SecurityScheme(securityScheme: 'bearerAuth', type: 'http', scheme: 'bearer',)]
-    #[OA\Response(response: '200', description: 'Api token is valid.')]
+    #[OA\Patch(path: '/auth/check', summary: 'Checks if the API token is valid.', tags: ['Authentication'])]
+    #[OA\HeaderParameter(name: 'Authorization', description: 'Bearer token.', in: 'header', required: true, example: 'Bearer token')]
+    #[OA\Response(response: '200', description: 'API token is valid.')]
     #[OA\Response(response: '401', description: 'Unauthenticated.')]
     public function check(): Response
     {
         return response([
-            'message' => 'Api token is valid',
+            'message' => 'API token is valid',
         ], 200);
     }
 
-    #[OA\Post(path: '/reset-password', summary: 'Reset the users password.', tags: ['Authentication'])]
+    #[OA\Post(path: '/reset-password', summary: 'Reset the user’s password.', tags: ['Authentication'])]
     #[OA\RequestBody(description: 'User credentials.', required: true, content: [
         new OA\JsonContent(
             required: ['email', 'password', 'password_confirmation', 'token'],
@@ -90,7 +86,7 @@ class AuthenticatedSessionController extends Controller
                 new OA\Property(property: 'email', type: 'string', example: 'user@app.com'),
                 new OA\Property(property: 'password', type: 'string', example: 'password'),
                 new OA\Property(property: 'password_confirmation', type: 'string', example: 'password'),
-                new OA\Property(property: 'token', description: 'The token is sent to the users email address.', type: 'string', example: 'token'),
+                new OA\Property(property: 'token', description: 'The token is sent to the user’s email address.', type: 'string', example: 'token'),
             ],
             type: 'object',
         ),
