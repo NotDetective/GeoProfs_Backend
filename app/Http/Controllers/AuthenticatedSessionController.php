@@ -32,13 +32,12 @@ class AuthenticatedSessionController extends Controller
     #[OA\Response(response: '201', description: 'Session created.', content: new OA\JsonContent(properties: [
         new OA\Property(property: 'token', type: 'string', example: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVzZXJAYXBwLmNvbSIsImV4cCI6MTYyNjQwNjYwNn0.'),
     ]))]
-    #[OA\Response(response: '422', description: 'Invalid credentials.' , content: new OA\JsonContent(properties: [
-        new OA\Property(property: 'errors', type: 'object', example:
-            [
-                'email' => ['We hebben een email adres nodig anders kunnen we je niet inloggen.'],
-                'password' => ['We hebben een wachtwoord nodig anders kunnen we je niet inloggen.'],
-                'remember' => ['remember must be a boolean.'],
-            ]),
+    #[OA\Response(response: '422', description: 'Invalid credentials.', content: new OA\JsonContent(properties: [
+        new OA\Property(property: 'errors', type: 'object', example: [
+            'email' => ['We hebben een email adres nodig anders kunnen we je niet inloggen.'],
+            'password' => ['We hebben een wachtwoord nodig anders kunnen we je niet inloggen.'],
+            'remember' => ['remember must be a boolean.'],
+        ]),
     ]))]
     public function store(LoginRequest $request): Response
     {
@@ -83,19 +82,35 @@ class AuthenticatedSessionController extends Controller
         ], 200);
     }
 
+    #[OA\Post(path: '/reset-password', summary: 'Reset the users password.', tags: ['Authentication'])]
+    #[OA\RequestBody(description: 'User credentials.', required: true, content: [
+        new OA\JsonContent(
+            required: ['email', 'password', 'password_confirmation', 'token'],
+            properties: [
+                new OA\Property(property: 'email', type: 'string', example: 'user@app.com'),
+                new OA\Property(property: 'password', type: 'string', example: 'password'),
+                new OA\Property(property: 'password_confirmation', type: 'string', example: 'password'),
+                new OA\Property(property: 'token', description: 'The token is sent to the users email address.', type: 'string', example: 'token'),
+            ],
+            type: 'object',
+        ),
+    ])]
+    #[OA\Response(response: '200', description: 'Password reset.')]
+    #[OA\Response(response: '400', description: 'Invalid token.')]
+    #[OA\Response(response: '422', description: 'Invalid credentials.')]
     public function resetPassword(ResetPasswordRequest $request): Response
     {
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function (User $user, string $password) {
                 $user->forceFill([
-                    'password' => Hash::make($password)
+                    'password' => Hash::make($password),
                 ])->setRememberToken(Str::random(60));
 
                 $user->save();
 
                 event(new PasswordReset($user));
-            }
+            },
         );
 
         return $status === Password::PASSWORD_RESET
