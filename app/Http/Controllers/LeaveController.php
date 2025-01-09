@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateAndCreateLeaveRequest;
 use App\Models\Leave;
 use Illuminate\Http\Request;
 
@@ -26,9 +27,16 @@ class LeaveController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UpdateAndCreateLeaveRequest $request)
     {
-        //
+        // get the user id
+        // get the manager id from the user (user->department->department_permission->manager_id)
+
+
+        //create the leave
+
+        //TODO: notification system implementation
+        //send the notification to the manager
     }
 
     /**
