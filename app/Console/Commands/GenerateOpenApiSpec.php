@@ -17,18 +17,22 @@ class GenerateOpenApiSpec extends Command
     {
         $outputFile = $this->option('output') ?? 'openapi.yaml';
 
-        // Run the OpenAPI generation command.
         $command = "php vendor/bin/openapi app -o {$outputFile}";
 
         $this->info("Running OpenAPI generator...");
 
-        // Execute the shell command.
-        $process = shell_exec($command);
+        $output = [];
+        $exitCode = null;
+        exec($command, $output, $exitCode);
 
-        if ($process === null) {
+        if ($exitCode !== 0) {
             $this->error('Failed to run the OpenAPI generator.');
         } else {
             $this->info("OpenAPI spec generated at: {$outputFile}");
+        }
+
+        if (!empty($output)) {
+            $this->line(implode("\n", $output));
         }
     }
 }

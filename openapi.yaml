@@ -3,3 +3,158 @@ info:
   title: 'GeoProfs API'
   description: 'API documentation for GeoProfs backend.'
   version: 1.0.0
+paths:
+  /login:
+    post:
+      tags:
+        - Authentication
+      summary: 'Create a new session.'
+      operationId: 01922171b9960e17201221088891ac68
+      requestBody:
+        description: 'User credentials.'
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  example: user@app.com
+                password:
+                  type: string
+                  example: password
+                remember:
+                  type: boolean
+                  example: true
+              type: object
+      responses:
+        '201':
+          description: 'Session created.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  token: { type: string, example: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJlbWFpbCI6InVzZXJAYXBwLmNvbSIsImV4cCI6MTYyNjQwNjYwNn0.' }
+                type: object
+        '422':
+          description: 'Invalid credentials.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  errors: { type: object, example: { email: ['Email is required.'], password: ['Password is required.'], remember: ['Remember must be a boolean.'] } }
+                type: object
+  /logout:
+    post:
+      tags:
+        - Authentication
+      summary: 'Destroy the current session.'
+      operationId: 858bd2eaf206c1d4c6fc691c7ef1c769
+      parameters:
+        -
+          name: Authorization
+          in: header
+          description: 'Bearer token.'
+          required: true
+          example: 'Bearer token'
+      responses:
+        '200':
+          description: 'Session destroyed.'
+        '401':
+          description: Unauthenticated.
+  /auth/check:
+    patch:
+      tags:
+        - Authentication
+      summary: 'Checks if the API token is valid.'
+      operationId: 9826eebf6215a633edde964a42e99d34
+      parameters:
+        -
+          name: Authorization
+          in: header
+          description: 'Bearer token.'
+          required: true
+          example: 'Bearer token'
+      responses:
+        '200':
+          description: 'API token is valid.'
+        '401':
+          description: Unauthenticated.
+  /reset-password:
+    post:
+      tags:
+        - Authentication
+      summary: 'Reset the user’s password.'
+      operationId: 52c2272380505eb92a21c96839d200f9
+      requestBody:
+        description: 'User credentials.'
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - email
+                - password
+                - password_confirmation
+                - token
+              properties:
+                email:
+                  type: string
+                  example: user@app.com
+                password:
+                  type: string
+                  example: password
+                password_confirmation:
+                  type: string
+                  example: password
+                token:
+                  description: 'The token is sent to the user’s email address.'
+                  type: string
+                  example: token
+              type: object
+      responses:
+        '200':
+          description: 'Password reset.'
+        '400':
+          description: 'Invalid token.'
+        '422':
+          description: 'Invalid credentials.'
+  mail/password-reset:
+    post:
+      tags:
+        - Mail
+      summary: 'Send a password reset email.'
+      operationId: fef21e533b552d715c19711d3c0eb927
+      requestBody:
+        description: 'User email.'
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - email
+              properties:
+                email:
+                  type: string
+                  example: user@app.com
+              type: object
+      responses:
+        '200':
+          description: 'Password reset email sent.'
+        '400':
+          description: 'Password reset email not sent.'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+tags:
+  -
+    name: Authentication
+    description: Authentication
+  -
+    name: Mail
+    description: Mail
