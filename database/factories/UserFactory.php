@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use SebastianBergmann\Type\TrueType;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -25,7 +26,7 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'employee_id' => fake()->words(4) . fake()->unique()->randomNumber(2),
+            'employee_id' => strtoupper(Str::random(4)) . fake()->unique()->randomNumber(2),
             'first_name' => fake()->firstName(),
             'middle_name' => fake()->optional()->firstName(),
             'last_name' => fake()->lastName(),

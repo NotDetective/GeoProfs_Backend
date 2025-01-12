@@ -31,7 +31,7 @@ class UserController extends Controller
             'city' => $request['city'],
             'contract_type' => $request['contract_type'],
             'contract_hours' => $request['contract_hours'],
-            'hire_date' => $request['hired_date'],
+            'hire_date' => $request['hire_date'],
             'role_id' => $request['role'],
             'department_id' => $request['department_id'],
             'section_id' => $request['section_id'],
