@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateAndCreateLeaveRequest;
+use App\Models\Department;
 use App\Models\Leave;
 use Illuminate\Http\Request;
 
@@ -29,8 +30,7 @@ class LeaveController extends Controller
      */
     public function store(UpdateAndCreateLeaveRequest $request)
     {
-
-        dd($request->user()->department->permission);
+        dd($request->user()->department->permissions->roles);
         // get the user id
         // get the manager id from the user (user->department->department_permission->manager_id)
 

@@ -16,8 +16,9 @@ class Permission extends Model
         return $this->belongsToMany(Role::class);
     }
 
-    public function departments()
+    public function department()
     {
-        return $this->hasOne(Department::class);
+        return $this->hasOne(Department::class, 'permissions_id', 'id');
     }
+
 }
