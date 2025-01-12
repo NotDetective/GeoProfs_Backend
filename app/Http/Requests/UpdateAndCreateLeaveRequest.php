@@ -17,7 +17,7 @@ class UpdateAndCreateLeaveRequest extends BaseRequest
             'leave_type_id' => ['required', 'integer', 'exists:leave_types,id'],
             'reason' => ['required', 'string'],
             'leave_date' => ['required', 'date'],
-            'leave_return' => ['required', 'date'],
+            'leave_return' => ['nullable', 'date'],
         ];
     }
 }

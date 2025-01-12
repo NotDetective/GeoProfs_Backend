@@ -29,9 +29,10 @@ class LeaveController extends Controller
      */
     public function store(UpdateAndCreateLeaveRequest $request)
     {
+
+        dd($request->user()->department->permission);
         // get the user id
         // get the manager id from the user (user->department->department_permission->manager_id)
-
 
         //create the leave
 

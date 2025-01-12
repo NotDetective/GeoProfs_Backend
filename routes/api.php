@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthenticatedSessionController;
+use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\MailController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,13 @@ Route::group(['middleware' => ['api']], function () {
         Route::patch('auth/check', [AuthenticatedSessionController::class, 'check'])
             ->name('auth.check');
         // here need to go all API routes that require the user to be authenticated(logged in)
+
+        Route::group(['prefix' => 'leave'], function () {
+
+            Route::post('/create', [LeaveController::class, 'store'])
+                ->name('leave.create');
+
+        });
 
     });
 

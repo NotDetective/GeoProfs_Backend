@@ -13,7 +13,7 @@ class Department extends Model
 
     public function permission()
     {
-        return $this->belongsTo(Permission::class);
+        return $this->hasOne(Permission::class);
     }
 
     public function users()
