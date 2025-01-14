@@ -34,8 +34,8 @@ class LeaveController extends Controller
             properties: [
                 new OA\Property(property: 'leave_type_id', type: 'integer', example: 1),
                 new OA\Property(property: 'reason', type: 'string', example: 'I need a break'),
-                new OA\Property(property: 'leave_date', type: 'string', format: 'date', example: '2021-07-01'),
-                new OA\Property(property: 'leave_return', type: 'string', format: 'date', example: '2021-07-05'),
+                new OA\Property(property: 'leave_date', type: 'string', format: 'timestamp', example: '2021-07-01 00:00:00'),
+                new OA\Property(property: 'leave_return', type: 'string', format: 'timestamp', example: '2021-07-05  00:00:00'),
             ],
             type: 'object',
         ),
@@ -48,9 +48,9 @@ class LeaveController extends Controller
             'manager_id' => 2,
             'leave_type_id' => 1,
             'reason' => 'I need a break',
-            'leave_date' => '2021-07-01',
-            'leave_return' => '2021-07-05',
-            'status' => 'pending',
+            'leave_date' => '2021-07-01 00:00:00',
+            'leave_return' => '2021-07-05 00:00:00',
+            'status' => 'in behandeling',
             'created_at' => '2021-07-01T12:00:00Z',
             'updated_at' => '2021-07-01T12:00:00Z',
         ])
