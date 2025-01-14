@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendNotificationEmail;
 use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -46,7 +47,7 @@ class NotificationController extends Controller
             return;
         }
 
-        //handle email sending
+        SendNotificationEmail::dispatch($message, $receiver);
     }
 
     private function checkIfTypeIsValidate(string $type): bool
