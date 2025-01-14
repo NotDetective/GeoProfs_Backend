@@ -3,63 +3,55 @@
 namespace App\Http\Controllers;
 
 use App\Models\Notification;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
+
+    private array $ValidateTypes = ['low', 'medium', 'high'];
+    private array $sendEmailTypes = ['high'];
 
     /**
-     * Show the form for creating a new resource.
+     *
+     * @param string $message
+     * @param string $type
+     * @param User $receiver
+     *
+     * @throws \Exception
      */
-    public function create()
+    public function createNotification(string $message, string $type, User $receiver)
     {
-        //
+
+        if ($this->checkIfTypeIsValidate($type)) {
+            throw new \Exception('Invalid type');
+        }
+
+        $this->sendNotification($message, $type, $receiver);
+        $this->sendEmail($message, $type, $receiver);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    private function sendNotification(string $message, string $type, User $receiver): void
     {
-        //
+        Notification::create([
+            'message' => $message,
+            'type' => $type,
+            'user_id' => $receiver->id,
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Notification $notification)
+    private function sendEmail(string $message, string $type, User $receiver): void
     {
-        //
+        if (!in_array($type, $this->sendEmailTypes)) {
+            return;
+        }
+
+        //handle email sending
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Notification $notification)
+    private function checkIfTypeIsValidate(string $type): bool
     {
-        //
+        return !in_array($type, $this->ValidateTypes);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Notification $notification)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Notification $notification)
-    {
-        //
-    }
 }
