@@ -9,10 +9,13 @@ define('API_HOST', env('APP_URL'));
     description: 'API documentation for GeoProfs backend.',
     title: 'GeoProfs API'
 )]
+#[OA\SecurityScheme(securityScheme: 'bearerAuth', type: 'http', scheme: 'bearer')]
 /**
  * @OA\Server(url=API_HOST)
  */
-class OpenApiConfig {}
+class OpenApiConfig
+{
+}
 
 abstract class Controller
 {

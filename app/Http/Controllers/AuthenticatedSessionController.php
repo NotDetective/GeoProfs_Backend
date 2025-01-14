@@ -14,7 +14,6 @@ use Illuminate\Support\Str;
 use Illuminate\Auth\Events\PasswordReset;
 use OpenApi\Attributes as OA;
 
-#[OA\SecurityScheme(securityScheme: 'bearerAuth', type: 'http', scheme: 'bearer')]
 class AuthenticatedSessionController extends Controller
 {
     #[OA\Post(path: '/login', summary: 'Create a new session.', tags: ['Authentication'])]
