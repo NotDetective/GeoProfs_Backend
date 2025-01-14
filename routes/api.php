@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\MailController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
 Route::group(['middleware' => ['api']], function () {
 
@@ -30,8 +31,8 @@ Route::group(['middleware' => ['api']], function () {
         Route::patch('auth/check', [AuthenticatedSessionController::class, 'check'])
             ->name('auth.check');
         // here need to go all API routes that require the user to be authenticated(logged in)
+        Route::post('user/create', [UserController::class, 'store']);
 
     });
 
 });
-
