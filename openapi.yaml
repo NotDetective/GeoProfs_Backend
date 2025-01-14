@@ -122,6 +122,63 @@ paths:
           description: 'Invalid token.'
         '422':
           description: 'Invalid credentials.'
+  /leave/create:
+    post:
+      tags:
+        - Leave
+      summary: 'Create a new leave request'
+      operationId: a1ea7ab022c0afec7f23f8f9bc364634
+      parameters:
+        -
+          name: Authorization
+          in: header
+          description: 'Bearer token.'
+          required: true
+          example: 'Bearer token'
+      requestBody:
+        description: 'Leave request details.'
+        content:
+          application/json:
+            schema:
+              required:
+                - leave_type_id
+                - leave_date
+              properties:
+                leave_type_id:
+                  type: integer
+                  example: 1
+                reason:
+                  type: string
+                  example: 'I need a break'
+                leave_date:
+                  type: string
+                  format: date
+                  example: '2021-07-01'
+                leave_return:
+                  type: string
+                  format: date
+                  example: '2021-07-05'
+              type: object
+      responses:
+        '200':
+          description: 'Leave request created successfully.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string, example: 'Leave request created successfully' }
+                  leave: { type: object, example: { id: 1, user_id: 1, manager_id: 2, leave_type_id: 1, reason: 'I need a break', leave_date: '2021-07-01', leave_return: '2021-07-05', status: pending, created_at: '2021-07-01T12:00:00Z', updated_at: '2021-07-01T12:00:00Z' } }
+                type: object
+        '422':
+          description: 'Invalid data.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  errors: { type: object, example: { leave_type_id: ['The leave type id field is required.'], leave_date: ['The leave date field is required.'] } }
+                type: object
+        '401':
+          description: Unauthenticated.
   mail/password-reset:
     post:
       tags:
@@ -240,6 +297,9 @@ tags:
   -
     name: Authentication
     description: Authentication
+  -
+    name: Leave
+    description: Leave
   -
     name: Mail
     description: Mail

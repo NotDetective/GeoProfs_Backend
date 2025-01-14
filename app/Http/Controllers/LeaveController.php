@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateAndCreateLeaveRequest;
-use App\Models\Department;
 use App\Models\Leave;
+use App\Models\User;
 use Illuminate\Http\Request;
+use OpenApi\Attributes as OA;
 
 class LeaveController extends Controller
 {
@@ -25,19 +26,70 @@ class LeaveController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    #[OA\Post(path:'/leave/create', summary: 'Create a new leave request' , tags: ['Leave'])]
+    #[OA\HeaderParameter(name: 'Authorization', description: 'Bearer token.', in: 'header', required: true, example: 'Bearer token')]
+    #[OA\RequestBody( request: true, description: 'Leave request details.', content: [
+        new OA\JsonContent(
+            required: ['leave_type_id', 'leave_date'],
+            properties: [
+                new OA\Property(property: 'leave_type_id', type: 'integer', example: 1),
+                new OA\Property(property: 'reason', type: 'string', example: 'I need a break'),
+                new OA\Property(property: 'leave_date', type: 'string', format: 'date', example: '2021-07-01'),
+                new OA\Property(property: 'leave_return', type: 'string', format: 'date', example: '2021-07-05'),
+            ],
+            type: 'object',
+        ),
+    ])]
+    #[OA\Response(response: '201', description: 'Leave request created successfully.', content: new OA\JsonContent(properties: [
+        new OA\Property(property: 'message', type: 'string', example: 'Leave request created successfully'),
+        new OA\Property(property: 'leave', type: 'object', example: [
+            'id' => 1,
+            'user_id' => 1,
+            'manager_id' => 2,
+            'leave_type_id' => 1,
+            'reason' => 'I need a break',
+            'leave_date' => '2021-07-01',
+            'leave_return' => '2021-07-05',
+            'status' => 'pending',
+            'created_at' => '2021-07-01T12:00:00Z',
+            'updated_at' => '2021-07-01T12:00:00Z',
+        ])
+    ]))]
+    #[OA\Response(response: '422', description: 'Invalid data.', content: new OA\JsonContent(properties: [
+        new OA\Property(property: 'errors', type: 'object', example: [
+            'leave_type_id' => ['The leave type id field is required.'],
+            'leave_date' => ['The leave date field is required.'],
+        ]),
+    ]))]
+    #[OA\Response(response: '401', description: 'Unauthenticated.')]
     public function store(UpdateAndCreateLeaveRequest $request)
     {
-        dd($request->user()->department->permissions->roles);
-        // get the user id
-        // get the manager id from the user (user->department->department_permission->manager_id)
+        $manager_id = $request->user()
+            ->department
+            ->permissions
+            ->roles
+            ->first()
+            ->users
+            ->first()
+            ->id;
 
-        //create the leave
+        $leave = Leave::create([
+            'user_id' => $request->user()->id,
+            'manager_id' => $manager_id,
+            'leave_type_id' => $request->leave_type_id,
+            'reason' => $request->reason ?? '',
+            'leave_date' => $request->leave_date,
+            'leave_return' => $request->leave_return ?? null,
+            'status' => 'pending',
+        ]);
 
         //TODO: notification system implementation
         //send the notification to the manager
+
+        return response([
+            'message' => 'Leave request created successfully',
+            'leave' => $leave,
+        ], 201);
     }
 
     /**
