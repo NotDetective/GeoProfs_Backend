@@ -78,8 +78,8 @@ class LeaveController extends Controller
             'manager_id' => $manager_id,
             'leave_type_id' => $request->leave_type_id,
             'reason' => $request->reason ?? '',
-            'leave_date' => $request->leave_date,
-            'leave_return' => $request->leave_return ?? null,
+            'date_leave' => $request->date_leave,
+            'date_return' => $request->date_return ?? null,
             'status' => 'pending',
         ]);
 
