@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Mail\NotificationMail;
+use App\Models\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
@@ -19,7 +20,7 @@ class SendNotificationEmail implements ShouldQueue
      */
     public function __construct(
         public string $message,
-        public string $receiver
+        public User $receiver
     ) {}
 
     /**

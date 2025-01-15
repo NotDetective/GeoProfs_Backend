@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -20,7 +21,7 @@ class NotificationMail extends Mailable
      */
     public function __construct(
         public string $message,
-        public string $receiver
+        public User $receiver
     ) {
         $this->NOTIFICATION_URL = env('FRONTEND_URL') .'/'. $this->receiver->id .'/notifications';
     }
@@ -41,7 +42,7 @@ class NotificationMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.notificationEmail.blade.php',
+            view: 'notificationEmail',
         );
     }
 
