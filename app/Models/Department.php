@@ -11,9 +11,9 @@ class Department extends Model
 
     protected $fillable = ['permissions_id', 'name'];
 
-    public function permission()
+    public function permissions()
     {
-        return $this->belongsTo(Permission::class);
+        return $this->belongsTo(Permission::class, 'permissions_id', 'id');
     }
 
     public function users()
