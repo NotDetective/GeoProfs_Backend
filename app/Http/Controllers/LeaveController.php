@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UpdateAndCreateLeaveRequest;
+use App\Http\Requests\CreateLeaveRequest;
 use App\Models\Leave;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -62,7 +62,7 @@ class LeaveController extends Controller
         ]),
     ]))]
     #[OA\Response(response: '401', description: 'Unauthenticated.')]
-    public function store(UpdateAndCreateLeaveRequest $request)
+    public function store(CreateLeaveRequest $request)
     {
         $manager_id = $request->user()
             ->department

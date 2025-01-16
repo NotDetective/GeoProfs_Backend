@@ -68,6 +68,15 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $exceptions->render(function (Exception $e, Request $request) {
             if ($request->is('api/*')) {
+
+                if ($e->getMessage() === 'Unauthenticated.')
+                {
+                    return response()->json([
+                        'message' => 'Unauthorized',
+                        'exception' => env('APP_DEBUG') ? $e->getMessage() : null
+                    ], 401);
+                }
+
                 return response()->json([
                     'message' => 'Internal Server Error',
                     'exception' => env('APP_DEBUG') ? $e->getMessage() : null
