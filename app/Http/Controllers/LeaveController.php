@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateLeaveRequest;
+use App\Http\Requests\UpdateLeaveRequest;
 use App\Models\Leave;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -111,9 +112,18 @@ class LeaveController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Leave $leave)
+    public function update(UpdateLeaveRequest $request)
     {
-        //
+
+        dd($request->all());
+
+        //TODO: notification system implementation
+        //send the notification to the worker(s)
+
+        return response([
+            'message' => 'Leave request updated successfully',
+            'leave' => $leave,
+        ], 200);
     }
 
     /**
