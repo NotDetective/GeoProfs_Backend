@@ -115,14 +115,21 @@ class LeaveController extends Controller
     public function update(UpdateLeaveRequest $request)
     {
 
-        dd($request->all());
+        $leaves = [];
+
+        foreach ($request->leave_request_id as $key => $leave_request_id) {
+            $leave = Leave::find($key);
+            $leave->status = $request->leave_request_status[$key];
+            $leave->save();
+            $leaves[] = $leave;
+        }
 
         //TODO: notification system implementation
         //send the notification to the worker(s)
 
         return response([
             'message' => 'Leave request updated successfully',
-            'leave' => $leave,
+            'leaves' => $leaves,
         ], 200);
     }
 
