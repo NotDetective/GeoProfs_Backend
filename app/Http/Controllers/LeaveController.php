@@ -27,9 +27,9 @@ class LeaveController extends Controller
         //
     }
 
-    #[OA\Post(path:'/leave/create', summary: 'Create a new leave request' , tags: ['Leave'])]
+    #[OA\Post(path: '/leave/create', summary: 'Create a new leave request', tags: ['Leave'])]
     #[OA\HeaderParameter(name: 'Authorization', description: 'Bearer token.', in: 'header', required: true, example: 'Bearer token')]
-    #[OA\RequestBody( request: true, description: 'Leave request details.', content: [
+    #[OA\RequestBody(request: true, description: 'Leave request details.', content: [
         new OA\JsonContent(
             required: ['leave_type_id', 'leave_date'],
             properties: [
@@ -54,7 +54,7 @@ class LeaveController extends Controller
             'status' => 'in behandeling',
             'created_at' => '2021-07-01T12:00:00Z',
             'updated_at' => '2021-07-01T12:00:00Z',
-        ])
+        ]),
     ]))]
     #[OA\Response(response: '422', description: 'Invalid data.', content: new OA\JsonContent(properties: [
         new OA\Property(property: 'errors', type: 'object', example: [
@@ -109,9 +109,76 @@ class LeaveController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    #[OA\Post(path: '/leave/update', summary: 'Update leave request status', tags: ['Leave'])]
+    #[OA\HeaderParameter(name: 'Authorization', description: 'Bearer token.', in: 'header', required: true, example: 'Bearer token')]
+    #[OA\RequestBody(
+        request: true,
+        description: 'Leave request details.',
+        content: [
+            new OA\JsonContent(
+                required: ['_method', 'leave_request_id', 'leave_request_status'],
+                properties: [
+                    new OA\Property(
+                        property: '_method',
+                        type: 'PATCH',
+                        example: 'PATCH'
+                    ),
+                    new OA\Property(
+                        property: 'leave_request_id',
+                        type: 'array',
+                        items: new OA\Items(type: 'integer'),
+                        example: [1, 2],
+                    ),
+                    new OA\Property(
+                        property: 'leave_request_status',
+                        type: 'array',
+                        items: new OA\Items(type: 'string'),
+                        example: ['approved', 'rejected'],
+                    ),
+                ],
+                type: 'object',
+            ),
+        ]
+    )]
+    #[OA\Response(
+        response: '200',
+        description: 'Leave request updated successfully.',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    property: 'message',
+                    type: 'string',
+                    example: 'Leave request updated successfully',
+                ),
+                new OA\Property(
+                    property: 'leaves',
+                    type: 'array',
+                    items: new OA\Items(
+                        properties: [
+                            new OA\Property(property: 'id', type: 'integer', example: 1),
+                            new OA\Property(property: 'user_id', type: 'integer', example: 1),
+                            new OA\Property(property: 'manager_id', type: 'integer', example: 2),
+                            new OA\Property(property: 'leave_type_id', type: 'integer', example: 1),
+                            new OA\Property(property: 'reason', type: 'string', example: 'I need a break'),
+                            new OA\Property(property: 'leave_date', type: 'string', format: 'date-time', example: '2021-07-01T00:00:00Z'),
+                            new OA\Property(property: 'leave_return', type: 'string', format: 'date-time', example: '2021-07-05T00:00:00Z'),
+                            new OA\Property(property: 'status', type: 'string', example: 'in behandeling'),
+                            new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2021-07-01T12:00:00Z'),
+                            new OA\Property(property: 'updated_at', type: 'string', format: 'date-time', example: '2021-07-01T12:00:00Z'),
+                        ],
+                        type: 'object',
+                    ),
+                ),
+            ],
+        )
+    )]
+    #[OA\Response(response: '422', description: 'Invalid data.', content: new OA\JsonContent(properties: [
+        new OA\Property(property: 'errors', type: 'object', example: [
+            'leave_request_id' => ['The leave request id field is required.'],
+            'leave_request_status' => ['The leave request status field is required.'],
+        ]),
+    ]))]
+    #[OA\Response(response: '401', description: 'Unauthenticated.')]
     public function update(UpdateLeaveRequest $request)
     {
 

@@ -179,6 +179,61 @@ paths:
                 type: object
         '401':
           description: Unauthenticated.
+  /leave/update:
+    post:
+      tags:
+        - Leave
+      summary: 'Update leave request status'
+      operationId: 657e6fef88a8bf0ea1a2d893ef05166c
+      parameters:
+        -
+          name: Authorization
+          in: header
+          description: 'Bearer token.'
+          required: true
+          example: 'Bearer token'
+      requestBody:
+        description: 'Leave request details.'
+        content:
+          application/json:
+            schema:
+              required:
+                - _method
+                - leave_request_id
+                - leave_request_status
+              properties:
+                _method:
+                  type: PATCH
+                  example: PATCH
+                leave_request_id:
+                  type: array
+                  items: { type: integer }
+                  example: [1, 2]
+                leave_request_status:
+                  type: array
+                  items: { type: string }
+                  example: [approved, rejected]
+              type: object
+      responses:
+        '200':
+          description: 'Leave request updated successfully.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string, example: 'Leave request updated successfully' }
+                  leaves: { type: array, items: { properties: { id: { type: integer, example: 1 }, user_id: { type: integer, example: 1 }, manager_id: { type: integer, example: 2 }, leave_type_id: { type: integer, example: 1 }, reason: { type: string, example: 'I need a break' }, leave_date: { type: string, format: date-time, example: '2021-07-01T00:00:00Z' }, leave_return: { type: string, format: date-time, example: '2021-07-05T00:00:00Z' }, status: { type: string, example: 'in behandeling' }, created_at: { type: string, format: date-time, example: '2021-07-01T12:00:00Z' }, updated_at: { type: string, format: date-time, example: '2021-07-01T12:00:00Z' } }, type: object } }
+                type: object
+        '422':
+          description: 'Invalid data.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  errors: { type: object, example: { leave_request_id: ['The leave request id field is required.'], leave_request_status: ['The leave request status field is required.'] } }
+                type: object
+        '401':
+          description: Unauthenticated.
   mail/password-reset:
     post:
       tags:
