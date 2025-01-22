@@ -39,6 +39,8 @@ Route::group(['middleware' => ['api']], function () {
             Route::post('/create', [LeaveController::class, 'store'])
                 ->name('leave.create');
 
+            Route::patch('/update', [LeaveController::class, 'update'])
+                ->name('leave.update');
         });
 
     });
