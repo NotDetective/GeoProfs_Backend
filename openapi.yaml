@@ -234,6 +234,31 @@ paths:
                 type: object
         '401':
           description: Unauthenticated.
+  /leave-overview/show:
+    get:
+      tags:
+        - 'Leave Overview'
+      summary: "Show the user's leave overview."
+      operationId: 2064042b24faedfdf9d027f79380996c
+      parameters:
+        -
+          name: Authorization
+          in: header
+          description: 'Bearer token.'
+          required: true
+          example: 'Bearer token'
+      responses:
+        '200':
+          description: 'Leave overview retrieved successfully.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string, example: 'Leave overview retrieved successfully' }
+                  leave_overview: { properties: { total_leaves: { type: integer, example: 320 }, used_leaves: { type: integer, example: 40 }, remaining_leaves: { type: integer, example: 280 } }, type: object }
+                type: object
+        '401':
+          description: Unauthenticated.
   mail/password-reset:
     post:
       tags:
@@ -355,6 +380,9 @@ tags:
   -
     name: Leave
     description: Leave
+  -
+    name: 'Leave Overview'
+    description: 'Leave Overview'
   -
     name: Mail
     description: Mail

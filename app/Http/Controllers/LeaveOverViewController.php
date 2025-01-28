@@ -4,11 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use OpenApi\Attributes as OA;
 
 class LeaveOverViewController extends Controller
 {
-
-
+    #[OA\Get(path: '/leave-overview/show', summary: 'Show the user\'s leave overview.', tags: ['Leave Overview'])]
+    #[OA\HeaderParameter(name: 'Authorization', description: 'Bearer token.', in: 'header', required: true, example: 'Bearer token')]
+    #[OA\Response(response: '200', description: 'Leave overview retrieved successfully.', content: new OA\JsonContent(properties: [
+        new OA\Property(property: 'message', type: 'string', example: 'Leave overview retrieved successfully'),
+        new OA\Property(property: 'leave_overview', properties: [
+            new OA\Property(property: 'total_leaves', type: 'integer', example: 320),
+            new OA\Property(property: 'used_leaves', type: 'integer', example: 40),
+            new OA\Property(property: 'remaining_leaves', type: 'integer', example: 280),
+        ], type: 'object'),
+    ]))]
+    #[OA\Response(response: '401', description: 'Unauthenticated.')]
     public function show(Request $request)
     {
         $user = $request->user();
