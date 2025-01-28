@@ -24,7 +24,7 @@ class Leave extends Model
 
     public function leaveType()
     {
-        return $this->hasOne(LeaveType::class);
+        return $this->belongsTo(LeaveType::class);
     }
 
     //**

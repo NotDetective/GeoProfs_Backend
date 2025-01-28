@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\LeaveController;
+use App\Http\Controllers\LeaveOverViewController;
 use App\Http\Controllers\MailController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -41,6 +42,12 @@ Route::group(['middleware' => ['api']], function () {
 
             Route::patch('/update', [LeaveController::class, 'update'])
                 ->name('leave.update');
+        });
+
+        Route::group(['prefix' => 'leave-overview'], function () {
+
+            Route::get('/show', [LeaveOverViewController::class, 'show'])
+                ->name('leave-overview.show');
         });
 
     });
