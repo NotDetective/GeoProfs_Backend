@@ -11,12 +11,42 @@ use OpenApi\Attributes as OA;
 
 class LeaveController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+
+    #[OA\Get(path: "/leave", summary: "Alle the user leaves" , tags: ['Leave'])]
+    #[OA\HeaderParameter(name: 'Authorization', description: 'Bearer token.', in: 'header', required: true, example: 'Bearer token')]
+    #[OA\Response( response: 200, description: 'Retrieve All Success', content: new OA\JsonContent(properties: [
+        new OA\Property(property: 'message', type: 'string', example: 'Retrieve All Success'),
+        new OA\Property(property: 'data', type: 'array', items: new OA\Items(
+            properties: [
+                new OA\Property(property: 'id', type: 'integer', example: 1),
+                new OA\Property(property: 'user_id', type: 'integer', example: 1),
+                new OA\Property(property: 'manager_id', type: 'integer', example: 2),
+                new OA\Property(property: 'leave_type_id', type: 'integer', example: 1),
+                new OA\Property(property: 'reason', type: 'string', example: 'I need a break'),
+                new OA\Property(property: 'leave_date', type: 'string', format: 'date-time', example: '2021-07-01T00:00:00Z'),
+                new OA\Property(property: 'leave_return', type: 'string', format: 'date-time', example: '2021-07-05T00:00:00Z'),
+                new OA\Property(property: 'status', type: 'string', example: 'in behandeling'),
+                new OA\Property(property: 'created_at', type: 'string', format: 'date-time', example: '2021-07-01T12:00:00Z'),
+                new OA\Property(property: 'updated_at', type: 'string', format: 'date-time', example: '2021-07-01T12:00:00Z'),
+            ],
+            type: 'object',
+        )),
+    ]))]
+    #[OA\Response(response: '401', description: 'Unauthenticated.')]
+    public function index(Request $request)
     {
-        //
+        $user = $request->user();
+
+        // Fetch approved leaves with related leave types
+        $leaves = $user->leaves()
+            ->where('status', 'approved')
+            ->with('leaveType')
+            ->get();
+
+        return response([
+            'message' => 'Retrieve All Success',
+            'data' => $leaves,
+        ], 200);
     }
 
     /**
