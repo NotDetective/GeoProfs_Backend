@@ -37,6 +37,9 @@ Route::group(['middleware' => ['api']], function () {
 
         Route::group(['prefix' => 'leave'], function () {
 
+            Route::get('/', [LeaveController::class, 'index'])
+                ->name('leave.index');
+
             Route::post('/create', [LeaveController::class, 'store'])
                 ->name('leave.create');
 
