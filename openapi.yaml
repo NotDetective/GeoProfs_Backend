@@ -122,6 +122,43 @@ paths:
           description: 'Invalid token.'
         '422':
           description: 'Invalid credentials.'
+  /leave:
+    get:
+      tags:
+        - Leave
+      summary: 'Alle the user leaves'
+      operationId: 412562ccd3e3ff21122a2c58821e5ddd
+      parameters:
+        -
+          name: Authorization
+          in: header
+          description: 'Bearer token.'
+          required: true
+          example: 'Bearer token'
+        -
+          name: status
+          in: query
+          description: 'The status of the leave request.'
+          required: false
+          example: asc
+        -
+          name: limit
+          in: query
+          description: 'The number of records to return.'
+          required: false
+          example: 10
+      responses:
+        '200':
+          description: 'Retrieve All Success'
+          content:
+            application/json:
+              schema:
+                properties:
+                  message: { type: string, example: 'Retrieve All Success' }
+                  data: { type: array, items: { properties: { id: { type: integer, example: 1 }, user_id: { type: integer, example: 1 }, manager_id: { type: integer, example: 2 }, leave_type_id: { type: integer, example: 1 }, reason: { type: string, example: 'I need a break' }, leave_date: { type: string, format: date-time, example: '2021-07-01T00:00:00Z' }, leave_return: { type: string, format: date-time, example: '2021-07-05T00:00:00Z' }, status: { type: string, example: 'in behandeling' }, created_at: { type: string, format: date-time, example: '2021-07-01T12:00:00Z' }, updated_at: { type: string, format: date-time, example: '2021-07-01T12:00:00Z' } }, type: object } }
+                type: object
+        '401':
+          description: Unauthenticated.
   /leave/create:
     post:
       tags:

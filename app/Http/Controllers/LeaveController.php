@@ -14,6 +14,8 @@ class LeaveController extends Controller
 
     #[OA\Get(path: "/leave", summary: "Alle the user leaves" , tags: ['Leave'])]
     #[OA\HeaderParameter(name: 'Authorization', description: 'Bearer token.', in: 'header', required: true, example: 'Bearer token')]
+    #[OA\Parameter(name: 'status', description: 'The status of the leave request.', in: 'query', required: false, example: 'asc')]
+    #[OA\Parameter(name: 'limit', description: 'The number of records to return.', in: 'query', required: false, example: 10)]
     #[OA\Response( response: 200, description: 'Retrieve All Success', content: new OA\JsonContent(properties: [
         new OA\Property(property: 'message', type: 'string', example: 'Retrieve All Success'),
         new OA\Property(property: 'data', type: 'array', items: new OA\Items(
@@ -39,13 +41,16 @@ class LeaveController extends Controller
 
         // Fetch approved leaves with related leave types
         $leaves = $user->leaves()
-            ->where('status', 'approved')
-            ->with('leaveType')
-            ->get();
+            ->orderBy('status', $request->status ?? 'asc')
+            ->with('leaveType');
+
+        if ($request->limit) {
+            $leaves = $leaves->limit($request->limit);
+        }
 
         return response([
             'message' => 'Retrieve All Success',
-            'data' => $leaves,
+            'data' => $leaves->get(),
         ], 200);
     }
 
